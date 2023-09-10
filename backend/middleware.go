@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 	"net/http"
+
+	"github.com/gorilla/handlers"
 )
 
 func LoggerMiddleWare(next http.Handler) http.Handler {
@@ -13,4 +15,13 @@ func LoggerMiddleWare(next http.Handler) http.Handler {
 		// Call the next handler
 		next.ServeHTTP(w, r)
 	})
+}
+
+func corsMiddleware(next http.Handler) http.Handler {
+	return handlers.CORS(
+		// handlers.AllowedOrigins([]string{"*"}), // You can specify allowed origins here
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
+		handlers.AllowedHeaders([]string{"Content-Type"}),
+		handlers.AllowCredentials(),
+	)(next)
 }

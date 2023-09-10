@@ -27,6 +27,7 @@ func main() {
 
 	// Initialize a new http.ServeMux (it's an HTTP request multiplexer)
 	router := mux.NewRouter()
+	router.Use(corsMiddleware)
 
 	router.Handle("/techniques", LoggerMiddleWare(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
